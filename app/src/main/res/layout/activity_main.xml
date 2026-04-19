@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".PokemonActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textViewEspecie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:labelFor="@id/editTextSpecie"
+            android:text="@string/specie"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextSpecie"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/pokemon_specie"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEspecie" />
+
+        <TextView
+            android:id="@+id/textViewNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:labelFor="@id/editTextNickname"
+            android:text="@string/nickname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSpecie" />
+
+        <EditText
+            android:id="@+id/editTextNickname"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/pokemon_nickname"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNickname" />
+
+        <TextView
+            android:id="@+id/textViewNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/level"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextNickname" />
+
+        <EditText
+            android:id="@+id/editTextLevel"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:hint="@string/pokemon_level"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNivel" />
+
+        <TextView
+            android:id="@+id/textViewPrimaryType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/primary_type"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSecondaryType"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextLevel" />
+
+        <TextView
+            android:id="@+id/textViewSecondaryType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/secondary_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/textViewPrimaryType"
+            app:layout_constraintTop_toTopOf="@+id/textViewPrimaryType" />
+
+        <Spinner
+            android:id="@+id/spinnerPrimaryType"
+            android:layout_width="180dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:entries="@array/primaryTypes"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toStartOf="@+id/spinnerSecondaryType"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewPrimaryType" />
+
+        <Spinner
+            android:id="@+id/spinnerSecondaryType"
+            android:layout_width="180dp"
+            android:layout_height="48dp"
+            android:entries="@array/secondaryTypes"
+            android:spinnerMode="dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/spinnerPrimaryType"
+            app:layout_constraintTop_toTopOf="@+id/spinnerPrimaryType" />
+
+        <TextView
+            android:id="@+id/textViewOrigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/poke_origin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerPrimaryType" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupOrigin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewOrigin">
+
+            <RadioButton
+                android:id="@+id/radioButtonEgg"
+                android:layout_width="95dp"
+                android:layout_height="match_parent"
+                android:text="@string/egg" />
+
+            <RadioButton
+                android:id="@+id/radioButtonCapture"
+                android:layout_width="95dp"
+                android:layout_height="match_parent"
+                android:text="@string/capture" />
+
+            <RadioButton
+                android:id="@+id/radioButtonTrade"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:text="@string/trade" />
+
+            <RadioButton
+                android:id="@+id/radioButtonFossil"
+                android:layout_width="95dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fossil" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/checkBoxAddParty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/add_to_party"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupOrigin" />
+
+        <Button
+            android:id="@+id/buttonClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="40dp"
+            android:onClick="clearFields"
+            android:text="@string/clear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSave"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxAddParty"
+            app:layout_constraintVertical_bias="0.19999999" />
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="saveValues"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/buttonClear"
+            app:layout_constraintTop_toTopOf="@+id/buttonClear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+

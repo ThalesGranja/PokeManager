@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="primaryTypes">
+        <item>@string/normal</item>
+        <item>@string/fire</item>
+        <item>@string/water</item>
+        <item>@string/electric</item>
+        <item>@string/grass</item>
+        <item>@string/ice</item>
+        <item>@string/fighting</item>
+        <item>@string/poison</item>
+        <item>@string/ground</item>
+        <item>@string/flying</item>
+        <item>@string/psychic</item>
+        <item>@string/bug</item>
+        <item>@string/rock</item>
+        <item>@string/ghost</item>
+        <item>@string/dragon</item>
+        <item>@string/dark</item>
+        <item>@string/steel</item>
+        <item>@string/fairy</item>
+    </string-array>
+
+    <string-array name="secondaryTypes">
+        <item>@string/none</item>
+        <item>@string/normal</item>
+        <item>@string/fire</item>
+        <item>@string/water</item>
+        <item>@string/electric</item>
+        <item>@string/grass</item>
+        <item>@string/ice</item>
+        <item>@string/fighting</item>
+        <item>@string/poison</item>
+        <item>@string/ground</item>
+        <item>@string/flying</item>
+        <item>@string/psychic</item>
+        <item>@string/bug</item>
+        <item>@string/rock</item>
+        <item>@string/ghost</item>
+        <item>@string/dragon</item>
+        <item>@string/dark</item>
+        <item>@string/steel</item>
+        <item>@string/fairy</item>
+    </string-array>
+
+    <string-array name="pokemon_specie">
+        <item>Venusaur</item>
+        <item>Charizard</item>
+        <item>Blastoise</item>
+        <item>Butterfree</item>
+        <item>Beedrill</item>
+        <item>Pidgeot</item>
+        <item>Raticate</item>
+        <item>Fearow</item>
+        <item>Arbok</item>
+        <item>Pikachu</item>
+    </string-array>
+
+    <string-array name="pokemon_nickname">
+        <item>Venu</item>
+        <item>FireDragon</item>
+        <item>WaterTurtle</item>
+        <item>ManteigaVoadora</item>
+        <item>AbelhaBroca</item>
+        <item>Pid</item>
+        <item>Ratao</item>
+        <item>Fearow</item>
+        <item>Kobra</item>
+        <item>Pi</item>
+    </string-array>
+
+    <string-array name="pokemon_type">
+        <item>Grass / Poison</item>
+        <item>Fire / Flying</item>
+        <item>Water</item>
+        <item>Bug / Flying</item>
+        <item>Bug / Poison</item>
+        <item>Normal / Flying</item>
+        <item>Normal</item>
+        <item>Normal / Flying</item>
+        <item>Poison</item>
+        <item>Electric</item>
+    </string-array>
+
+    <integer-array name="pokemon_level">
+        <item>32</item>
+        <item>40</item>
+        <item>36</item>
+        <item>15</item>
+        <item>10</item>
+        <item>37</item>
+        <item>20</item>
+        <item>25</item>
+        <item>22</item>
+        <item>55</item>
+    </integer-array>
+
+    <integer-array name="pokemon_origin">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>2</item>
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>1</item>
+        <item>0</item>
+    </integer-array>
+
+    <integer-array name="pokemon_party">
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>1</item>
+    </integer-array>
+
+</resources>
+
+<!--
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+<item></item>
+-->
