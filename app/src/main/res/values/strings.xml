@@ -58,12 +58,13 @@
     <string name="the_pokemon_of_specie">The pokemon of specie \"</string>
     <string name="was_clicked">\"\nwas clicked!</string>
     <string name="logo_pokemanager_desc">Logo PokeManager</string>
-    <string name="pokemon_manager_system">Pokemon manager system</string>
-    <string name="authorship">Author: Thales Granja</string>
+    <string name="app_description">Your personal Pokédex to register and organize your Pokémon team!</string>
+    <string name="authorship">Thales Granja</string>
     <string name="about">About</string>
     <string name="pokemon_manager">Pokemon Manager</string>
     <string name="register">Register</string>
     <string name="register_new_pokemon">Register New Pokemon</string>
-    <string name="course">Course: Software Engineering</string>
-    <string name="email">E-mail: thalesgranja.dev@gmail.com</string>
+    <string name="course">Software Engineering</string>
+    <string name="email">thalesgranja.dev@gmail.com</string>
+    <string name="university">Universidade Tecnológica Federal do Paraná</string>
 </resources>
