@@ -1,6 +1,16 @@
 package br.edu.utfpr.thalesgranja.pokemanager;
 
+import java.util.Comparator;
+
 public class Pokemon {
+
+    public static Comparator<Pokemon> ascendingOrder = new Comparator<Pokemon>() {
+        @Override
+        public int compare(Pokemon pokemon1, Pokemon pokemon2) {
+            return pokemon1.getSpecie().compareToIgnoreCase(pokemon2.getSpecie());
+        }
+    };
+
     private String specie;
     private String nickname;
     private int level;

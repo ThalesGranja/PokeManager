@@ -13,10 +13,12 @@
         android:theme="@style/Base.Theme.PokeManager">
         <activity
             android:name=".AboutActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".PokemonsActivity"/>
         <activity
             android:name=".PokemonsActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +27,10 @@
         </activity>
         <activity
             android:name=".PokemonActivity"
-            android:exported="false"></activity>
+            android:exported="false"
+            android:parentActivityName=".PokemonsActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PokemonsActivity extends AppCompatActivity {
@@ -153,6 +154,9 @@ public class PokemonsActivity extends AppCompatActivity {
                             Pokemon pokemon = new Pokemon(specie, nickname, level, types, PokemonOrigin.valueOf(pokeOrigin), party);
 
                             listPokemons.add(pokemon);
+
+                            Collections.sort(listPokemons, Pokemon.ascendingOrder);
+
                             pokemonAdapter.notifyDataSetChanged();
                         }
                     }
@@ -213,6 +217,8 @@ public class PokemonsActivity extends AppCompatActivity {
                             pokemon.setType(types);
                             pokemon.setPokemonOrigin(PokemonOrigin.valueOf(pokeOrigin));
                             pokemon.setAddParty(party);
+
+                            Collections.sort(listPokemons, Pokemon.ascendingOrder);
 
                             pokemonAdapter.notifyDataSetChanged();
                         }
