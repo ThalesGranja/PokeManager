@@ -69,4 +69,5 @@
     <string name="university">Universidade Tecnológica Federal do Paraná</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="edit_pokemon">Edit Pokémon</string>
 </resources>

@@ -40,6 +40,67 @@ public class PokemonActivity extends AppCompatActivity {
         spinnerSecondaryType = findViewById(R.id.spinnerSecondaryType);
         radioGroupOrigin = findViewById(R.id.radioGroupOrigin);
         checkBoxAddParty = findViewById(R.id.checkBoxAddParty);
+
+        // ====================================================================
+        // LÓGICA DE EDIÇÃO: Verifica se há dados vindo da Intent
+        // ====================================================================
+        Intent intent = getIntent();
+
+        if (intent.hasExtra(KEY_SPECIE)) {
+            setTitle(getString(R.string.edit_pokemon));
+
+            editTextSpecie.setText(intent.getStringExtra(KEY_SPECIE));
+            editTextNickname.setText(intent.getStringExtra(KEY_NICKNAME));
+            editTextLevel.setText(String.valueOf(intent.getIntExtra(KEY_LEVEL, 1)));
+            checkBoxAddParty.setChecked(intent.getBooleanExtra(KEY_PARTY, false));
+
+            String originString = intent.getStringExtra(KEY_ORIGIN);
+            if (originString != null) {
+                if (originString.equals(PokemonOrigin.Egg.toString())) {
+                    radioGroupOrigin.check(R.id.radioButtonEgg);
+                } else if (originString.equals(PokemonOrigin.Capture.toString())) {
+                    radioGroupOrigin.check(R.id.radioButtonCapture);
+                } else if (originString.equals(PokemonOrigin.Trade.toString())) {
+                    radioGroupOrigin.check(R.id.radioButtonTrade);
+                } else if (originString.equals(PokemonOrigin.Fossil.toString())) {
+                    radioGroupOrigin.check(R.id.radioButtonFossil);
+                }
+            }
+
+            String typesString = intent.getStringExtra(KEY_TYPES);
+            if (typesString != null) {
+
+                String separator = getString(R.string.type_separator);
+                String noneType = getString(R.string.none);
+
+                String tipo1 = "";
+                String tipo2 = noneType;
+
+                if (typesString.contains(separator)) {
+                    String[] tiposArray = typesString.split(java.util.regex.Pattern.quote(separator));
+                    if (tiposArray.length >= 2) {
+                        tipo1 = tiposArray[0].trim();
+                        tipo2 = tiposArray[1].trim();
+                    }
+                } else {
+                    tipo1 = typesString.trim();
+                }
+
+                for (int i = 0; i < spinnerPrimaryType.getCount(); i++) {
+                    if (spinnerPrimaryType.getItemAtPosition(i).toString().equalsIgnoreCase(tipo1)) {
+                        spinnerPrimaryType.setSelection(i);
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < spinnerSecondaryType.getCount(); i++) {
+                    if (spinnerSecondaryType.getItemAtPosition(i).toString().equalsIgnoreCase(tipo2)) {
+                        spinnerSecondaryType.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public void clearFields(){

@@ -21,6 +21,7 @@ import java.util.List;
 
 public class PokemonsActivity extends AppCompatActivity {
 
+    private int positionEdit = -1;
     private ListView listViewPokemons;
     private List<Pokemon> listPokemons;
     private PokemonAdapter pokemonAdapter;
@@ -119,6 +120,39 @@ public class PokemonsActivity extends AppCompatActivity {
                     }
                 }
             });
+
+    ActivityResultLauncher<Intent> launcherEditPokemon = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == PokemonsActivity.RESULT_OK){
+                        Intent intent = result.getData();
+                        Bundle bundle = intent != null ? intent.getExtras() : null;
+
+                        if (bundle != null && positionEdit != -1){
+                            String specie = bundle.getString(PokemonActivity.KEY_SPECIE);
+                            String nickname = bundle.getString(PokemonActivity.KEY_NICKNAME);
+                            int level = bundle.getInt(PokemonActivity.KEY_LEVEL);
+                            String types = bundle.getString(PokemonActivity.KEY_TYPES);
+                            String pokeOrigin = bundle.getString(PokemonActivity.KEY_ORIGIN);
+                            boolean party = bundle.getBoolean(PokemonActivity.KEY_PARTY);
+
+                            Pokemon pokemon = listPokemons.get(positionEdit);
+                            pokemon.setSpecie(specie);
+                            pokemon.setNickname(nickname);
+                            pokemon.setLevel(level);
+                            pokemon.setType(types);
+                            pokemon.setPokemonOrigin(PokemonOrigin.valueOf(pokeOrigin));
+                            pokemon.setAddParty(party);
+
+                            pokemonAdapter.notifyDataSetChanged();
+
+                            positionEdit = -1;
+                        }
+                    }
+                }
+            });
+
     public void openRegister() {
         Intent intentAbertura = new Intent(this, PokemonActivity.class);
 
@@ -152,6 +186,22 @@ public class PokemonsActivity extends AppCompatActivity {
         pokemonAdapter.notifyDataSetChanged();
     }
 
+    private void editPokemon(int position){
+        positionEdit = position;
+        Pokemon pokemon = listPokemons.get(position);
+
+        Intent intent = new Intent(this, PokemonActivity.class);
+
+        intent.putExtra(PokemonActivity.KEY_SPECIE, pokemon.getSpecie());
+        intent.putExtra(PokemonActivity.KEY_NICKNAME, pokemon.getNickname());
+        intent.putExtra(PokemonActivity.KEY_LEVEL, pokemon.getLevel());
+        intent.putExtra(PokemonActivity.KEY_TYPES, pokemon.getType());
+        intent.putExtra(PokemonActivity.KEY_ORIGIN, pokemon.getPokemonOrigin().toString());
+        intent.putExtra(PokemonActivity.KEY_PARTY, pokemon.isAddParty());
+
+        launcherEditPokemon.launch(intent);
+    }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
@@ -168,7 +218,7 @@ public class PokemonsActivity extends AppCompatActivity {
         int idMenuItem = item.getItemId();
         
         if (idMenuItem == R.id.menuItemEdit){
-            //editPokemon(info.position);
+            editPokemon(info.position);
             return true;
         } else if (idMenuItem == R.id.menuItemDelete) {
             deletePokemon(info.position);
