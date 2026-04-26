@@ -2,13 +2,15 @@ package br.edu.utfpr.thalesgranja.pokemanager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PokemonActivity extends AppCompatActivity {
@@ -40,7 +42,7 @@ public class PokemonActivity extends AppCompatActivity {
         checkBoxAddParty = findViewById(R.id.checkBoxAddParty);
     }
 
-    public void clearFields(View view){
+    public void clearFields(){
         editTextSpecie.setText(null);
         editTextNickname.setText(null);
         editTextLevel.setText(null);
@@ -54,7 +56,7 @@ public class PokemonActivity extends AppCompatActivity {
         Toast.makeText(this, R.string.the_fields_were_cleared, Toast.LENGTH_LONG).show();
     }
 
-    public void saveValues(View view){
+    public void saveValues(){
 
         String specie = editTextSpecie.getText().toString();
 
@@ -173,5 +175,28 @@ public class PokemonActivity extends AppCompatActivity {
         setResult(PokemonActivity.RESULT_OK, intentResponse);
 
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.pokemon_options, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int idMenuItem = item.getItemId();
+
+        if (idMenuItem == R.id.menuItemSave){
+            saveValues();
+            return true;
+        } else if (idMenuItem == R.id.menuItemClear) {
+            clearFields();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+
     }
 }
