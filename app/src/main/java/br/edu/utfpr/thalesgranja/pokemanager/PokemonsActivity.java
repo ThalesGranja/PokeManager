@@ -1,9 +1,11 @@
 package br.edu.utfpr.thalesgranja.pokemanager;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,16 +17,65 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PokemonsActivity extends AppCompatActivity {
 
-    private int positionEdit = -1;
     private ListView listViewPokemons;
     private List<Pokemon> listPokemons;
     private PokemonAdapter pokemonAdapter;
+
+    private int positionEdit = -1;
+    private ActionMode actionMode;
+    private View viewSelecionada;
+    private Drawable backgroundDrawable;
+
+    private ActionMode.Callback actionCallback = new ActionMode.Callback() {
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflate = mode.getMenuInflater();
+            inflate.inflate(R.menu.pokemons_item_selected, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int idMenuItem = item.getItemId();
+
+            if (idMenuItem == R.id.menuItemEdit){
+                editPokemon();
+                return true;
+            } else if (idMenuItem == R.id.menuItemDelete){
+                deletePokemon();
+                mode.finish();
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            if (viewSelecionada != null){
+                viewSelecionada.setBackground(backgroundDrawable);
+            }
+
+            actionMode         = null;
+            viewSelecionada    = null;
+            backgroundDrawable = null;
+
+            listViewPokemons.setEnabled(true);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,63 +85,52 @@ public class PokemonsActivity extends AppCompatActivity {
         setTitle(getString(R.string.pokemon_manager));
 
         listViewPokemons = findViewById(R.id.listViewPokemons);
-        
-//        listViewPokemons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Pokemon pokemon = (Pokemon) listViewPokemons.getItemAtPosition(position);
-//
-//                Toast.makeText(getApplicationContext(), getString(R.string.the_pokemon_of_specie) + pokemon.getSpecie() + getString(R.string.was_clicked), Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         populatePokemonList();
 
-        registerForContextMenu(listViewPokemons);
     }
 
     private void populatePokemonList() {
-        /*String[] pokemons_species     = getResources().getStringArray(R.array.pokemon_specie);
-        String[] pokemons_nicknames   = getResources().getStringArray(R.array.pokemon_nickname);
-        int[] pokemons_levels        = getResources().getIntArray(R.array.pokemon_level);
-        String[] pokemons_types      = getResources().getStringArray(R.array.pokemon_type);
-        int[] pokemons_origins       = getResources().getIntArray(R.array.pokemon_origin);
-        int[] pokemons_party         = getResources().getIntArray(R.array.pokemon_party);*/
-
         listPokemons = new ArrayList<>();
-
-        /*Pokemon pokemon;
-        boolean addParty;
-        PokemonOrigin pokemonOrigin;
-
-        PokemonOrigin[] pokemonsOrigins = PokemonOrigin.values();
-
-        for(int cont = 0; cont < pokemons_species.length; cont++){
-            addParty = (pokemons_party[cont] == 1 ? true : false);
-
-            pokemonOrigin = pokemonsOrigins[pokemons_origins[cont]];
-
-            pokemon = new Pokemon(
-                    pokemons_species[cont],
-                    pokemons_nicknames[cont],
-                    pokemons_levels[cont],
-                    pokemons_types[cont],
-                    pokemonOrigin,
-                    addParty);
-
-            listPokemons.add(pokemon);
-        }*/
-
         pokemonAdapter = new PokemonAdapter(this, listPokemons);
 
-        listViewPokemons.setAdapter(pokemonAdapter);
+        listViewPokemons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (actionMode == null) {
+                    positionEdit = position;
+                    editPokemon();
+                }
+            }
+        });
 
+        listViewPokemons.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                if (actionMode != null) {
+                    return false;
+                }
+
+                positionEdit = position;
+                viewSelecionada = view;
+                backgroundDrawable = view.getBackground();
+
+                view.setBackgroundColor(Color.LTGRAY);
+
+                listViewPokemons.setEnabled(false);
+
+                actionMode = startSupportActionMode(actionCallback);
+
+                return true;
+            }
+        });
+
+        listViewPokemons.setAdapter(pokemonAdapter);
     }
 
     public void openAbout() {
         Intent intentAbertura = new Intent(this, AboutActivity.class);
-
         startActivity(intentAbertura);
     }
 
@@ -100,8 +140,7 @@ public class PokemonsActivity extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == PokemonsActivity.RESULT_OK){
                         Intent intent = result.getData();
-
-                        Bundle bundle = intent.getExtras();
+                        Bundle bundle = intent != null ? intent.getExtras() : null;
 
                         if (bundle != null){
                             String specie = bundle.getString(PokemonActivity.KEY_SPECIE);
@@ -114,12 +153,42 @@ public class PokemonsActivity extends AppCompatActivity {
                             Pokemon pokemon = new Pokemon(specie, nickname, level, types, PokemonOrigin.valueOf(pokeOrigin), party);
 
                             listPokemons.add(pokemon);
-
                             pokemonAdapter.notifyDataSetChanged();
                         }
                     }
                 }
             });
+
+    public void openRegister() {
+        Intent intentAbertura = new Intent(this, PokemonActivity.class);
+        launcherNewPokemon.launch(intentAbertura);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.pokemons_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int idMenuItem = item.getItemId();
+
+        if (idMenuItem == R.id.menuItemRegister){
+            openRegister();
+            return true;
+        } else if (idMenuItem == R.id.menuItemAbout) {
+            openAbout();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void deletePokemon(){
+        listPokemons.remove(positionEdit);
+        pokemonAdapter.notifyDataSetChanged();
+    }
 
     ActivityResultLauncher<Intent> launcherEditPokemon = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -146,86 +215,29 @@ public class PokemonsActivity extends AppCompatActivity {
                             pokemon.setAddParty(party);
 
                             pokemonAdapter.notifyDataSetChanged();
-
-                            positionEdit = -1;
                         }
+                    }
+
+                    positionEdit = -1;
+
+                    if (actionMode != null){
+                        actionMode.finish();
                     }
                 }
             });
 
-    public void openRegister() {
+    private void editPokemon(){
+        Pokemon pokemon = listPokemons.get(positionEdit);
+
         Intent intentAbertura = new Intent(this, PokemonActivity.class);
 
-        launcherNewPokemon.launch(intentAbertura);
-    }
+        intentAbertura.putExtra(PokemonActivity.KEY_SPECIE, pokemon.getSpecie());
+        intentAbertura.putExtra(PokemonActivity.KEY_NICKNAME, pokemon.getNickname());
+        intentAbertura.putExtra(PokemonActivity.KEY_LEVEL, pokemon.getLevel());
+        intentAbertura.putExtra(PokemonActivity.KEY_TYPES, pokemon.getType());
+        intentAbertura.putExtra(PokemonActivity.KEY_ORIGIN, pokemon.getPokemonOrigin().toString());
+        intentAbertura.putExtra(PokemonActivity.KEY_PARTY, pokemon.isAddParty());
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.pokemons_options, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int idMenuItem = item.getItemId();
-
-        if (idMenuItem == R.id.menuItemRegister){
-            openRegister();
-            return true;
-        } else if (idMenuItem == R.id.menuItemAbout) {
-            openAbout();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void deletePokemon(int position){
-        listPokemons.remove(position);
-
-        pokemonAdapter.notifyDataSetChanged();
-    }
-
-    private void editPokemon(int position){
-        positionEdit = position;
-        Pokemon pokemon = listPokemons.get(position);
-
-        Intent intent = new Intent(this, PokemonActivity.class);
-
-        intent.putExtra(PokemonActivity.KEY_SPECIE, pokemon.getSpecie());
-        intent.putExtra(PokemonActivity.KEY_NICKNAME, pokemon.getNickname());
-        intent.putExtra(PokemonActivity.KEY_LEVEL, pokemon.getLevel());
-        intent.putExtra(PokemonActivity.KEY_TYPES, pokemon.getType());
-        intent.putExtra(PokemonActivity.KEY_ORIGIN, pokemon.getPokemonOrigin().toString());
-        intent.putExtra(PokemonActivity.KEY_PARTY, pokemon.isAddParty());
-
-        launcherEditPokemon.launch(intent);
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        getMenuInflater().inflate(R.menu.pokemons_item_selected, menu) ;
-    }
-
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info;
-        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-
-        int idMenuItem = item.getItemId();
-        
-        if (idMenuItem == R.id.menuItemEdit){
-            editPokemon(info.position);
-            return true;
-        } else if (idMenuItem == R.id.menuItemDelete) {
-            deletePokemon(info.position);
-            return true;
-        } else {
-            return super.onContextItemSelected(item);
-        }
-
+        launcherEditPokemon.launch(intentAbertura);
     }
 }
