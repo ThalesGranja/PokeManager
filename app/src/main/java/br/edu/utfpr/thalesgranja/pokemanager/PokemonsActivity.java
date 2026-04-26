@@ -2,12 +2,12 @@ package br.edu.utfpr.thalesgranja.pokemanager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -34,17 +34,19 @@ public class PokemonsActivity extends AppCompatActivity {
 
         listViewPokemons = findViewById(R.id.listViewPokemons);
         
-        listViewPokemons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                
-                Pokemon pokemon = (Pokemon) listViewPokemons.getItemAtPosition(position);
-
-                Toast.makeText(getApplicationContext(), getString(R.string.the_pokemon_of_specie) + pokemon.getSpecie() + getString(R.string.was_clicked), Toast.LENGTH_LONG).show();
-            }
-        });
+//        listViewPokemons.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Pokemon pokemon = (Pokemon) listViewPokemons.getItemAtPosition(position);
+//
+//                Toast.makeText(getApplicationContext(), getString(R.string.the_pokemon_of_specie) + pokemon.getSpecie() + getString(R.string.was_clicked), Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         populatePokemonList();
+
+        registerForContextMenu(listViewPokemons);
     }
 
     private void populatePokemonList() {
@@ -142,5 +144,38 @@ public class PokemonsActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void deletePokemon(int position){
+        listPokemons.remove(position);
+
+        pokemonAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        getMenuInflater().inflate(R.menu.pokemons_item_selected, menu) ;
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info;
+        info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+
+        int idMenuItem = item.getItemId();
+        
+        if (idMenuItem == R.id.menuItemEdit){
+            //editPokemon(info.position);
+            return true;
+        } else if (idMenuItem == R.id.menuItemDelete) {
+            deletePokemon(info.position);
+            return true;
+        } else {
+            return super.onContextItemSelected(item);
+        }
+
     }
 }

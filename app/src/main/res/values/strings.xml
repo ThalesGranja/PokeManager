@@ -67,4 +67,6 @@
     <string name="course">Software Engineering</string>
     <string name="email">thalesgranja.dev@gmail.com</string>
     <string name="university">Universidade Tecnológica Federal do Paraná</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>
