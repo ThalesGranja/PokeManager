@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="specie">Espécie</string>
+    <string name="nickname">Apelido</string>
+    <string name="level">Nível</string>
+    <string name="primary_type">Tipo Primário</string>
+    <string name="secondary_type">Tipo Secundário</string>
+
+    <string name="none">Nenhum</string>
+    <string name="normal">Normal</string>
+    <string name="fire">Fogo</string>
+    <string name="water">Água</string>
+    <string name="electric">Elétrico</string>
+    <string name="grass">Planta</string>
+    <string name="ice">Gelo</string>
+    <string name="fighting">Lutador</string>
+    <string name="poison">Venenoso</string>
+    <string name="ground">Terrestre</string>
+    <string name="flying">Voador</string>
+    <string name="psychic">Psíquico</string>
+    <string name="bug">Inseto</string>
+    <string name="rock">Pedra</string>
+    <string name="ghost">Fantasma</string>
+    <string name="dragon">Dragão</string>
+    <string name="dark">Sombrio</string>
+    <string name="steel">Aço</string>
+    <string name="fairy">Fada</string>
+
+    <string name="poke_origin">Origem</string>
+    <string name="egg">Ovo</string>
+    <string name="capture">Captura</string>
+    <string name="trade">Troca</string>
+    <string name="fossil">Fóssil</string>
+    <string name="pokemon_specie">Espécie do Pokémon</string>
+    <string name="pokemon_nickname">Apelido do Pokémon</string>
+    <string name="pokemon_level">Nível do Pokémon</string>
+    <string name="add_to_party">Adicionar à equipe</string>
+    <string name="clear">Limpar</string>
+    <string name="save">Salvar</string>
+    <string name="the_fields_were_cleared">Os campos foram limpos.</string>
+    <string name="invalid_specie_try_again">Espécie inválida! Tente novamente.</string>
+    <string name="invalid_nickname_try_again">Apelido inválido! Tente novamente.</string>
+    <string name="invalid_level_try_again">Nível inválido! Tente novamente.</string>
+    <string name="level_must_be_an_integer">O nível deve ser um número inteiro.</string>
+    <string name="pokemon_level_between_1_and_100">O nível do Pokémon deve estar entre 1 e 100!</string>
+    <string name="primary_type_spinner_no_value">O seletor de Tipo Primário não possui nenhum valor</string>
+    <string name="secondary_type_spinner_no_value">O seletor de Tipo Secundário não possui nenhum valor</string>
+    <string name="pokemon_origin_is_required">A origem do Pokémon é obrigatória.</string>
+    <string name="type_value">"Tipo: "</string>
+    <string name="types_value">"Tipos: "</string>
+    <string name="type_separator">" / "</string>
+    <string name="specie_value">"Espécie: "</string>
+    <string name="nickname_value">"Apelido: "</string>
+    <string name="level_value_desc">"Nível: "</string>
+    <string name="pokemon_origin_value">"Origem do Pokémon: "</string>
+    <string name="in_party">Na equipe</string>
+    <string name="not_in_party">Fora da equipe</string>
+
+    <string name="logo_pokemanager_desc">Logo PokeManager</string>
+    <string name="app_description">Sua Pokédex pessoal para registrar e organizar sua equipe Pokémon!</string>
+    <string name="authorship">Thales Granja</string>
+    <string name="about">Sobre</string>
+    <string name="pokemon_manager">Gerenciador de Pokémon</string>
+    <string name="register">Cadastrar</string>
+    <string name="register_new_pokemon">Cadastrar Novo Pokémon</string>
+    <string name="course">Engenharia de Software</string>
+    <string name="university">Universidade Tecnológica Federal do Paraná</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Excluir</string>
+    <string name="edit_pokemon">Editar Pokémon</string>
+    <string name="suggest_origin">Sugerir Origem</string>
+    <string name="sort">Ordenar</string>
+    <string name="restore_defaults">Restaurar Padrões</string>
+    <string name="the_settings_have_returned_to_the_installation_defaults">As configurações retornaram aos padrões de instalação!</string>
+</resources>

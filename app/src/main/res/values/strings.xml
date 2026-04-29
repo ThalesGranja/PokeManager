@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PokeManager</string>
+    <string name="app_name" translatable="false">PokeManager</string>
     <string name="specie">Specie</string>
     <string name="nickname">Nickname</string>
     <string name="level">Level</string>
@@ -55,8 +55,7 @@
     <string name="pokemon_origin_value">"Pokemon Origin: "</string>
     <string name="in_party">In party</string>
     <string name="not_in_party">Not in party</string>
-    <string name="the_pokemon_of_specie">The pokemon of specie \"</string>
-    <string name="was_clicked">\"\nwas clicked!</string>
+
     <string name="logo_pokemanager_desc">Logo PokeManager</string>
     <string name="app_description">Your personal Pokédex to register and organize your Pokémon team!</string>
     <string name="authorship">Thales Granja</string>
@@ -65,8 +64,8 @@
     <string name="register">Register</string>
     <string name="register_new_pokemon">Register New Pokemon</string>
     <string name="course">Software Engineering</string>
-    <string name="email">thalesgranja.dev@gmail.com</string>
-    <string name="university">Universidade Tecnológica Federal do Paraná</string>
+    <string name="email" translatable="false">thalesgranja.dev@gmail.com</string>
+    <string name="university">Federal University of Technology - Paraná</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="edit_pokemon">Edit Pokémon</string>
