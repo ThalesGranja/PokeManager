@@ -11,6 +11,13 @@ public class Pokemon {
         }
     };
 
+    public static Comparator<Pokemon> descendingOrder = new Comparator<Pokemon>() {
+        @Override
+        public int compare(Pokemon pokemon1, Pokemon pokemon2) {
+            return -1 * pokemon1.getSpecie().compareToIgnoreCase(pokemon2.getSpecie());
+        }
+    };
+
     private String specie;
     private String nickname;
     private int level;

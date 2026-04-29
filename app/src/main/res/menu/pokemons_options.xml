@@ -8,6 +8,14 @@
         android:title="@string/register"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menuItemSort"
+        android:icon="@drawable/ic_action_ascending_sort"
+        android:title="@string/sort"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menuItemRestoreDefaults"
+        android:title="@string/restore_defaults" />
+    <item
         android:id="@+id/menuItemAbout"
         android:title="@string/about" />
 </menu>

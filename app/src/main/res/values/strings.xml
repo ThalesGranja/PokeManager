@@ -71,4 +71,7 @@
     <string name="delete">Delete</string>
     <string name="edit_pokemon">Edit Pokémon</string>
     <string name="suggest_origin">Suggest Origin</string>
+    <string name="sort">Sort</string>
+    <string name="restore_defaults">Restore Defaults</string>
+    <string name="the_settings_have_returned_to_the_installation_defaults">The settings have returned to the installation defaults!</string>
 </resources>

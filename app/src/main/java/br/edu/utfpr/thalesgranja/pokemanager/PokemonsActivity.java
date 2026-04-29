@@ -1,6 +1,8 @@
 package br.edu.utfpr.thalesgranja.pokemanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -35,6 +38,11 @@ public class PokemonsActivity extends AppCompatActivity {
     private Drawable backgroundDrawable;
 
     public static final String FILE_PREFERENCES = "br.edu.utfpr.thalesgranja.pokemanager.PREFERENCES";
+    public static final String KEY_SORT_ASCENDING = "SORT_ASCENDING";
+    public static final boolean DEFAULT_SORT_ASCENDING = true;
+
+    private boolean sortAscending = DEFAULT_SORT_ASCENDING;
+    private MenuItem menuItemSort;
 
     private ActionMode.Callback actionCallback = new ActionMode.Callback() {
 
@@ -89,8 +97,8 @@ public class PokemonsActivity extends AppCompatActivity {
 
         listViewPokemons = findViewById(R.id.listViewPokemons);
 
+        readPreferences();
         populatePokemonList();
-
     }
 
     private void populatePokemonList() {
@@ -157,9 +165,7 @@ public class PokemonsActivity extends AppCompatActivity {
 
                             listPokemons.add(pokemon);
 
-                            Collections.sort(listPokemons, Pokemon.ascendingOrder);
-
-                            pokemonAdapter.notifyDataSetChanged();
+                            sortList();
                         }
                     }
                 }
@@ -173,6 +179,15 @@ public class PokemonsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.pokemons_options, menu);
+
+        menuItemSort = menu.findItem(R.id.menuItemSort);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        updateSortIcon();
+
         return true;
     }
 
@@ -185,6 +200,18 @@ public class PokemonsActivity extends AppCompatActivity {
             return true;
         } else if (idMenuItem == R.id.menuItemAbout) {
             openAbout();
+            return true;
+        } else if (idMenuItem == R.id.menuItemSort) {
+            saveSortPreferences(!sortAscending);
+            updateSortIcon();
+            sortList();
+            return true;
+        } else if (idMenuItem == R.id.menuItemRestoreDefaults) {
+            restoreDefaults();
+            updateSortIcon();
+            sortList();
+
+            Toast.makeText(this, R.string.the_settings_have_returned_to_the_installation_defaults, Toast.LENGTH_LONG).show();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
@@ -220,9 +247,7 @@ public class PokemonsActivity extends AppCompatActivity {
                             pokemon.setPokemonOrigin(PokemonOrigin.valueOf(pokeOrigin));
                             pokemon.setAddParty(party);
 
-                            Collections.sort(listPokemons, Pokemon.ascendingOrder);
-
-                            pokemonAdapter.notifyDataSetChanged();
+                            sortList();
                         }
                     }
 
@@ -247,5 +272,51 @@ public class PokemonsActivity extends AppCompatActivity {
         intentAbertura.putExtra(PokemonActivity.KEY_PARTY, pokemon.isAddParty());
 
         launcherEditPokemon.launch(intentAbertura);
+    }
+
+    private void updateSortIcon() {
+        if(sortAscending){
+            menuItemSort.setIcon(R.drawable.ic_action_ascending_sort);
+        } else {
+            menuItemSort.setIcon(R.drawable.ic_action_descending_sort);
+        }
+    }
+
+    private void sortList(){
+        if (sortAscending){
+            Collections.sort(listPokemons, Pokemon.ascendingOrder);
+        } else {
+            Collections.sort(listPokemons, Pokemon.descendingOrder);
+        }
+
+        pokemonAdapter.notifyDataSetChanged();
+    }
+    private void readPreferences() {
+        SharedPreferences shared  = getSharedPreferences(FILE_PREFERENCES, Context.MODE_PRIVATE);
+
+        sortAscending = shared.getBoolean(KEY_SORT_ASCENDING, sortAscending);
+    }
+
+    private void saveSortPreferences(boolean newValue) {
+        SharedPreferences shared  = getSharedPreferences(FILE_PREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.putBoolean(KEY_SORT_ASCENDING, newValue);
+
+        editor.commit();
+
+        sortAscending = newValue;
+    }
+
+    private void restoreDefaults() {
+        SharedPreferences shared  = getSharedPreferences(FILE_PREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.clear();
+        editor.commit();
+
+        sortAscending = DEFAULT_SORT_ASCENDING;
     }
 }
