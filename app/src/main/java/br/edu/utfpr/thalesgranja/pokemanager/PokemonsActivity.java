@@ -34,6 +34,8 @@ public class PokemonsActivity extends AppCompatActivity {
     private View viewSelecionada;
     private Drawable backgroundDrawable;
 
+    public static final String FILE_PREFERENCES = "br.edu.utfpr.thalesgranja.pokemanager.PREFERENCES";
+
     private ActionMode.Callback actionCallback = new ActionMode.Callback() {
 
         @Override

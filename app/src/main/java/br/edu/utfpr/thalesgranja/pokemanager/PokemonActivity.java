@@ -1,6 +1,8 @@
 package br.edu.utfpr.thalesgranja.pokemanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,10 +23,17 @@ public class PokemonActivity extends AppCompatActivity {
     public static final String KEY_TYPES = "KEY_TYPES";
     public static final String KEY_ORIGIN = "KEY_ORIGIN";
     public static final String KEY_PARTY = "KEY_PARTY";
+
+    public static final String KEY_SUGGEST_ORIGIN = "SUGGEST_ORIGIN";
+    public static final String KEY_LAST_ORIGIN = "LAST_ORIGIN";
+
     private EditText editTextSpecie, editTextNickname, editTextLevel;
     private Spinner spinnerPrimaryType, spinnerSecondaryType;
     private RadioGroup radioGroupOrigin;
     private CheckBox checkBoxAddParty;
+
+    private boolean suggestOrigin = false;
+    private PokemonOrigin lastOrigin = PokemonOrigin.Capture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +49,20 @@ public class PokemonActivity extends AppCompatActivity {
         spinnerSecondaryType = findViewById(R.id.spinnerSecondaryType);
         radioGroupOrigin = findViewById(R.id.radioGroupOrigin);
         checkBoxAddParty = findViewById(R.id.checkBoxAddParty);
+
+        readPreferences();
+
+        if (suggestOrigin) {
+            if (lastOrigin == PokemonOrigin.Egg) {
+                radioGroupOrigin.check(R.id.radioButtonEgg);
+            } else if (lastOrigin == PokemonOrigin.Capture) {
+                radioGroupOrigin.check(R.id.radioButtonCapture);
+            } else if (lastOrigin == PokemonOrigin.Trade) {
+                radioGroupOrigin.check(R.id.radioButtonTrade);
+            } else if (lastOrigin == PokemonOrigin.Fossil) {
+                radioGroupOrigin.check(R.id.radioButtonFossil);
+            }
+        }
 
         // ====================================================================
         // LÓGICA DE EDIÇÃO: Verifica se há dados vindo da Intent
@@ -224,6 +247,8 @@ public class PokemonActivity extends AppCompatActivity {
 
         String types = secondaryType.equals(getString(R.string.none)) ? primaryType : primaryType + getString(R.string.type_separator) + secondaryType;
 
+        saveLastOrigin(pokemonOrigin);
+
         Intent intentResponse = new Intent();
 
         intentResponse.putExtra(KEY_SPECIE, specie);
@@ -246,6 +271,15 @@ public class PokemonActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.menuItemSuggestOrigin);
+
+        item.setChecked(suggestOrigin);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int idMenuItem = item.getItemId();
 
@@ -255,9 +289,59 @@ public class PokemonActivity extends AppCompatActivity {
         } else if (idMenuItem == R.id.menuItemClear) {
             clearFields();
             return true;
+        } else if (idMenuItem == R.id.menuItemSuggestOrigin) {
+            boolean value = !item.isChecked();
+
+            saveSuggestOrigin(value);
+            item.setChecked(value);
+
+            if (suggestOrigin) {
+                if (lastOrigin == PokemonOrigin.Egg) {
+                    radioGroupOrigin.check(R.id.radioButtonEgg);
+                } else if (lastOrigin == PokemonOrigin.Capture) {
+                    radioGroupOrigin.check(R.id.radioButtonCapture);
+                } else if (lastOrigin == PokemonOrigin.Trade) {
+                    radioGroupOrigin.check(R.id.radioButtonTrade);
+                } else if (lastOrigin == PokemonOrigin.Fossil) {
+                    radioGroupOrigin.check(R.id.radioButtonFossil);
+                }
+            }
+
+            return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
-
     }
+
+    private void readPreferences() {
+        SharedPreferences shared = getSharedPreferences(PokemonsActivity.FILE_PREFERENCES, Context.MODE_PRIVATE);
+
+        suggestOrigin = shared.getBoolean(KEY_SUGGEST_ORIGIN, suggestOrigin);
+
+        String originString = shared.getString(KEY_LAST_ORIGIN, lastOrigin.toString());
+        lastOrigin = PokemonOrigin.valueOf(originString);
+    }
+
+    private void saveSuggestOrigin(boolean newValue){
+        SharedPreferences shared = getSharedPreferences(PokemonsActivity.FILE_PREFERENCES, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.putBoolean(KEY_SUGGEST_ORIGIN, newValue);
+
+        editor.commit();
+
+        suggestOrigin = newValue;
+    }
+
+    private void saveLastOrigin(PokemonOrigin origin) {
+        SharedPreferences shared = getSharedPreferences(PokemonsActivity.FILE_PREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+
+        editor.putString(KEY_LAST_ORIGIN, origin.toString());
+        editor.commit();
+
+        lastOrigin = origin;
+    }
+
 }

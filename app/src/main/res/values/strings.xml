@@ -70,4 +70,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="edit_pokemon">Edit Pokémon</string>
+    <string name="suggest_origin">Suggest Origin</string>
 </resources>
